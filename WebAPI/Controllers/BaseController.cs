@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    public class BaseController : ControllerBase
+    public abstract class BaseController : ControllerBase
     {
         private readonly IMediator? _mediator;
         protected IMediator? Mediator
@@ -15,9 +15,9 @@ namespace WebAPI.Controllers
             }
         }
 
-        public BaseController()
+        protected BaseController(IHttpContextAccessor httpContextAccessor)
         {
-            _mediator = HttpContext.RequestServices.GetService<IMediator?>();
+            _mediator = httpContextAccessor.HttpContext?.RequestServices.GetService<IMediator?>();
         }
     }
 }

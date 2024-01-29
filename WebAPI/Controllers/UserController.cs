@@ -1,5 +1,6 @@
 ﻿using Application.Features.Users.Commands.CreateUserCommand;
 using Application.Features.Users.Queries.GetAllUsersQuery;
+using Application.Features.Users.Queries.GetById;
 using Application.Services.Repositories;
 using Domain.Entities;
 using MediatR;
@@ -11,13 +12,20 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : BaseController
+    public class UserController(IHttpContextAccessor httpContextAccessor) : BaseController(httpContextAccessor)
     {
-        [HttpGet]
+        [HttpGet("GetAllUsers")]
         public async Task<IActionResult> GetAll()
         {
             var users = await Mediator!.Send(new GetAllUsersQuery());
             return Ok(users);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetById([FromQuery] int Id)
+        {
+            var user = await Mediator!.Send(new GetUserByIdQuery { Id = Id});
+            return Ok(user);
         }
 
 

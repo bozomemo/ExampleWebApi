@@ -21,9 +21,9 @@ namespace Application
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             services.AddScoped<UserValidator>();
 
